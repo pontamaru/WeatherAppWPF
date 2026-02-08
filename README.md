@@ -1,2 +1,2 @@
 # WeatherAppWPF
-# WeatherAppWPF \nWPFを用いてお天気アプリを作成
+WPFを用いてお天気アプリを作成
