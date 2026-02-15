@@ -7,10 +7,10 @@ namespace WeatherAppWpf.Views
 	/// TodayWeatherView.xaml の相互作用ロジック
 	/// </summary>
 	public partial class TodayWeatherView : UserControl
-    {
-        public TodayWeatherView()
-        {
-            InitializeComponent();
+	{
+		public TodayWeatherView()
+		{
+			InitializeComponent();
 		}
 
 		public void SetViewModel(TodayWeatherViewModel viewModel)

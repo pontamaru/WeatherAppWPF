@@ -7,15 +7,15 @@ namespace WeatherAppWpf.Views
 	/// SettingsView.xaml の相互作用ロジック
 	/// </summary>
 	public partial class SettingsView : UserControl
-    {
-        public SettingsView()
-        {
-            InitializeComponent();
+	{
+		public SettingsView()
+		{
+			InitializeComponent();
 		}
 
-        public void SetViewModel(SettingsViewModel viewModel)
-        {
-            DataContext = viewModel;
+		public void SetViewModel(SettingsViewModel viewModel)
+		{
+			DataContext = viewModel;
 		}
 	}
 }

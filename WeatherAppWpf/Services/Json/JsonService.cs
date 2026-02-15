@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 
 namespace WeatherAppWpf.Services.Json
 {
-    class JsonService
+	class JsonService
 	{
-        public static void SaveToJsonFile<T>(string filePath, T data)
-        {
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented);
+		public static void SaveToJsonFile<T>(string filePath, T data)
+		{
+			var json = JsonConvert.SerializeObject(data, Formatting.Indented);
 			using (var sw = new StreamWriter(filePath, false, Encoding.UTF8))
 			{
 				// JSON データをファイルに書き込み

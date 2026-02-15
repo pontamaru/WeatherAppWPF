@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WeatherAppWpf.Services.Weather
 {
-    public class WeatherInfo
+	public class WeatherInfo
 	{
 		public string? Date { get; set; } = null;
 		public string? DateLabel { get; set; } = null;

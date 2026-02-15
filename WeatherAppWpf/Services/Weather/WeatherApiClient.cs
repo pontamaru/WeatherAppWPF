@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WeatherAppWpf.Services.Weather
 {
-    public class WeatherApiClient
+	public class WeatherApiClient
 	{
 		private static readonly string API_URL = "https://weather.tsukumijima.net/api/forecast/city/{0}";
 
@@ -31,6 +31,10 @@ namespace WeatherAppWpf.Services.Weather
 			_cityCode = cityCode;
 		}
 
+		/// <summary>
+		/// 天気情報の更新が完了したときに呼び出されるアクションを設定
+		/// </summary>
+		/// <param name="finishedAction"></param>
 		public void SetUpdatedAction(Action? finishedAction)
 		{
 			_onWeatherInfoUpdated = finishedAction;
@@ -45,10 +49,14 @@ namespace WeatherAppWpf.Services.Weather
 			if (!string.IsNullOrEmpty(_cityCode))
 			{
 				WeatherInfoList.Clear();
+
+				// 天気情報が取得できるまで待機
 				await FetchWeatherInfoAsync();
+
 				WeatherInfoList.ForEach(info => Debug.WriteLine($"[WeatherApiClient]{info.Desplay()}"));
 			}
 
+			// 更新中フラグを解除して、天気情報の更新が完了したことを通知
 			IsUpdating = false;
 			_onWeatherInfoUpdated?.Invoke();
 		}
@@ -64,6 +72,8 @@ namespace WeatherAppWpf.Services.Weather
 			using (HttpClient client = new HttpClient())
 			{
 				string requestUrl = string.Format(API_URL, _cityCode);
+
+				// APIにリクエストを送信してレスポンスを受け取るまで待機
 				HttpResponseMessage response = await client.GetAsync(requestUrl);
 				if (response.IsSuccessStatusCode)
 				{
@@ -75,10 +85,10 @@ namespace WeatherAppWpf.Services.Weather
 
 					// ３日分の天気情報をリストで取得
 					var forecasts = weatherJsonData["forecasts"];
-                    if (forecasts != null)
-                    {
-                        foreach (var forecast in forecasts)
-                        {
+					if (forecasts != null)
+					{
+						foreach (var forecast in forecasts)
+						{
 							WeatherInfoList.Add(new WeatherInfo
 							{
 								Date = (string?)forecast["date"],
@@ -96,7 +106,7 @@ namespace WeatherAppWpf.Services.Weather
 								ImageUrl = (string?)forecast["image"]?["url"]
 							});
 						}
-                    }
+					}
 				}
 				else
 				{

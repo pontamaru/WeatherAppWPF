@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Reflection.Emit;
@@ -15,18 +15,20 @@ namespace WeatherAppWpf.ViewModels
 		{
 			_model = model;
 
-			// �R���{�{�b�N�X�ɓs�s�ꗗ��ǉ�
+			// コンボボックスに都市一覧を追加
 			var code = _model.GetCityCode();
 			var selectLabel = string.Empty;
 			foreach (var item in CityCodeData.CityCodes)
-            {
+			{
 				var label = $"{item.Key} - {item.Value}";
+
+				// 保存されている都市コードと一致するものがあれば、
+				// コンボボックスの初期選択項目として設定
 				if (item.Value.Contains(code))
 				{
 					selectLabel = label;
 				}
-
-				AddCity(label);
+				CityComboBox.Add(label);
 			}
 			SelectedComboBoxItem = selectLabel;
 		}
@@ -43,13 +45,9 @@ namespace WeatherAppWpf.ViewModels
 			if (string.IsNullOrEmpty(SelectedComboBoxItem))
 				return;
 
+			// コンボボックスで選択した都市コードを保存
 			var cityCode = SelectedComboBoxItem.Split(" - ")[1];
 			_model.SaveSettings(cityCode);
-		}
-
-		public void AddCity(string city)
-		{
-			CityComboBox.Add(city);
 		}
 	}
 }
