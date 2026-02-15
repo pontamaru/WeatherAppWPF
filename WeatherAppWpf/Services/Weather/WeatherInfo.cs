@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WeatherAppWpf.Services.Weather
+﻿namespace WeatherAppWpf.Services.Weather
 {
 	public class WeatherInfo
 	{
