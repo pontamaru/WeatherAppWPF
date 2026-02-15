@@ -8,6 +8,6 @@ namespace WeatherAppWpf.Services.Json
 		public static readonly string SETTINGS_FILE_NAME = "settings.json";
 
 		[JsonProperty("CityCode")]
-        public string CityCode { get; set; } = string.Empty;		
-    }
+		public string CityCode { get; set; } = string.Empty;		
+	}
 }

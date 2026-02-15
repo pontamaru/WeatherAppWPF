@@ -2,12 +2,12 @@
 
 namespace WeatherAppWpf.Models
 {
-    public class TodayWeatherModel
+	public class TodayWeatherModel
 	{
-        private WeatherApiClient _weatherApiClient;
+		private WeatherApiClient _weatherApiClient;
 
 		public TodayWeatherModel(WeatherApiClient weather)
-        {
+		{
 			_weatherApiClient = weather;
 		}
 
@@ -29,6 +29,10 @@ namespace WeatherAppWpf.Models
 			_weatherApiClient.SetCityCode(cityCode);
 		}
 
+		/// <summary>
+		/// 天気情報の更新が完了したときに呼び出されるアクションを設定
+		/// </summary>
+		/// <param name="finishedAction"></param>
 		public void SetUpdatedAction(Action? finishedAction)
 		{
 			_weatherApiClient.SetUpdatedAction(finishedAction);
@@ -38,7 +42,7 @@ namespace WeatherAppWpf.Models
 		{
 			var todayWeather = _weatherApiClient.WeatherInfoList.FirstOrDefault();
 			if (todayWeather == null)
-				return "XXXX/X/X (X)";
+				return "XXXX/XX/XX (X)";
 
 			DateTime date = DateTime.Parse(todayWeather.Date!);
 			string dayOfWeek = date.ToString("ddd");

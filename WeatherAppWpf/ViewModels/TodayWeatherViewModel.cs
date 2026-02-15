@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -14,10 +14,13 @@ namespace WeatherAppWpf.ViewModels
 		public TodayWeatherViewModel(TodayWeatherModel todayeModel, SettingsModel settingsModel)
 		{
 			_todayModel = todayeModel;
-			_todayModel.SetUpdatedAction(UpdateViews);
 			_settingsModel = settingsModel;
-			_settingsModel.OnSettingsChanged += OnSettingsChanged;
 
+			// Viewを更新するためのアクションを設定
+			_todayModel.SetUpdatedAction(UpdateViews);
+			_settingsModel.SetChangedAction(OnSettingsChanged);
+
+			// 初期表示のために天気情報を更新
 			UpdateWeather();
 		}
 
@@ -32,10 +35,12 @@ namespace WeatherAppWpf.ViewModels
 		[ObservableProperty]
 		private string _todayRainProbability = string.Empty;
 
-		[RelayCommand(CanExecute = nameof(CanCulcxulate))]
+		[RelayCommand(CanExecute = nameof(CanUpdateWeather))]
 		private void UpdateWeather()
 		{
 			_todayModel.UpdateWeather();
+
+			// 更新中はコマンドを無効化するため、CanExecuteChangedを通知
 			UpdateWeatherCommand.NotifyCanExecuteChanged();
 		}
 
@@ -47,9 +52,13 @@ namespace WeatherAppWpf.ViewModels
 			TodayTemperature = _todayModel.GetTodayTemperature();
 			TodayRainProbability = _todayModel.GetTodayRainProbability();
 
+			// 天気情報の更新が完了したので、コマンドの実行可否を再評価
 			UpdateWeatherCommand.NotifyCanExecuteChanged();
 		}
 
+		/// <summary>
+		/// 設定が変更されたときの処理
+		/// </summary>
 		private void OnSettingsChanged()
 		{
 			var cityCode = _settingsModel.GetCityCode();
@@ -57,6 +66,6 @@ namespace WeatherAppWpf.ViewModels
 			UpdateWeather();
 		}
 
-		private bool CanCulcxulate() => _todayModel.CanUpdate;
+		private bool CanUpdateWeather() => _todayModel.CanUpdate;
 	}
 }
