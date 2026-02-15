@@ -34,6 +34,8 @@ namespace WeatherAppWpf.ViewModels
 		private string _todayTemperature = string.Empty;
 		[ObservableProperty]
 		private string _todayRainProbability = string.Empty;
+		[ObservableProperty]
+		private string _todayWeatherIcon = string.Empty;
 
 		[RelayCommand(CanExecute = nameof(CanUpdateWeather))]
 		private void UpdateWeather()
@@ -51,6 +53,7 @@ namespace WeatherAppWpf.ViewModels
 			TodayWeather = _todayModel.GetTodayTelop();
 			TodayTemperature = _todayModel.GetTodayTemperature();
 			TodayRainProbability = _todayModel.GetTodayRainProbability();
+			TodayWeatherIcon = _todayModel.GetTodayWeatherIcon();
 
 			// 天気情報の更新が完了したので、コマンドの実行可否を再評価
 			UpdateWeatherCommand.NotifyCanExecuteChanged();

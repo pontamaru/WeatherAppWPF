@@ -83,5 +83,14 @@ namespace WeatherAppWpf.Models
 
 			return string.Join(" ", todayWeather.ChanceOfRain);
 		}
+
+		public string GetTodayWeatherIcon()
+		{
+			var todayWeather = _weatherApiClient.WeatherInfoList.FirstOrDefault();
+			if (todayWeather == null || todayWeather.ImageUrl == null)
+				return string.Empty;
+
+			return todayWeather.ImageUrl;
+		}
 	}
 }

@@ -1,16 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
 using System.Diagnostics;
-using System.IO;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace WeatherAppWpf.Services.Weather
 {
 	public class WeatherApiClient
 	{
 		private static readonly string API_URL = "https://weather.tsukumijima.net/api/forecast/city/{0}";
+		private static readonly int WEATHER_COUNT = 3;
 
 		public List<WeatherInfo> WeatherInfoList { get; set; }
 		public string CityName { get; set; } = string.Empty;
