@@ -41,7 +41,7 @@ namespace WeatherAppWpf.Models
 		/// <param name="finishedAction"></param>
 		public void SetChangedAction(Action? finishedAction)
 		{
-			_onSettingsChanged = finishedAction;
+			_onSettingsChanged += finishedAction;
 		}
 
 		public string GetCityCode()

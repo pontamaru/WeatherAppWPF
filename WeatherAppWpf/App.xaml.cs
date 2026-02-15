@@ -26,18 +26,19 @@ namespace WeatherAppWpf
 
 			// Modelを作成
 			var todayModel = new TodayWeatherModel(weather);
+			var threeDaysModel = new ThreeDaysWeatherModel(weather);
 			var settingsModel = new SettingsModel(settings);
 
 			// ViewModelを作成し、Modelを渡す
 			var todayWeatherViewModel = new TodayWeatherViewModel(todayModel, settingsModel);
+			var threeDaysWeatherViewModel = new ThreeDaysWeatherViewModel(threeDaysModel, settingsModel);
 			var settingsViewModel = new SettingsViewModel(settingsModel);
-			//var threeDaysWeatherViewModel = new ThreeDaysWeatherViewModel();
 
 			// Viewを作成し、ViewModelを渡す
 			var mainWindow = new MainWindow();
 			mainWindow.TodayWeatherView.SetViewModel(todayWeatherViewModel);
+			mainWindow.ThreeDaysWeatherView.SetViewModel(threeDaysWeatherViewModel);
 			mainWindow.SettingsView.SetViewModel(settingsViewModel);
-			//mainWindow.ThreeDaysWeatherView.SetViewModel(threeDaysWeatherViewModel);
 
 			// ウィンドウ表示
 			mainWindow.Show();
