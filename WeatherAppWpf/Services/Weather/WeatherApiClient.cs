@@ -34,7 +34,7 @@ namespace WeatherAppWpf.Services.Weather
 		/// <param name="finishedAction"></param>
 		public void SetUpdatedAction(Action? finishedAction)
 		{
-			_onWeatherInfoUpdated = finishedAction;
+			_onWeatherInfoUpdated += finishedAction;
 		}
 
 		/// <summary>

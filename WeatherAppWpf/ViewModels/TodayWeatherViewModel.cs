@@ -1,74 +1,33 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System.Diagnostics;
-using System.Windows.Input;
+using System.Collections.ObjectModel;
 using WeatherAppWpf.Models;
 
 namespace WeatherAppWpf.ViewModels
 {
-	public partial class TodayWeatherViewModel : ObservableObject
+	public partial class TodayWeatherViewModel : WeatherViewModelBase
 	{
 		private readonly TodayWeatherModel _todayModel;
-		private readonly SettingsModel _settingsModel;
 
-		public TodayWeatherViewModel(TodayWeatherModel todayeModel, SettingsModel settingsModel)
+		public TodayWeatherViewModel(TodayWeatherModel todayModel, SettingsModel settingsModel) : base(todayModel, settingsModel)
 		{
-			_todayModel = todayeModel;
-			_settingsModel = settingsModel;
-
-			// Viewを更新するためのアクションを設定
-			_todayModel.SetUpdatedAction(UpdateViews);
-			_settingsModel.SetChangedAction(OnSettingsChanged);
-
-			// 初期表示のために天気情報を更新
-			UpdateWeather();
+			_todayModel = todayModel;
 		}
 
 		[ObservableProperty]
-		private string _todayDateAndWeek = string.Empty;
-		[ObservableProperty]
-		private string _targetCity = string.Empty;
-		[ObservableProperty]
-		private string _todayWeather = string.Empty;
-		[ObservableProperty]
-		private string _todayTemperature = string.Empty;
-		[ObservableProperty]
-		private string _todayRainProbability = string.Empty;
-		[ObservableProperty]
-		private string _todayWeatherIcon = string.Empty;
+		private WeatherViewData _todayWeatherInfo = new WeatherViewData();
 
-		[RelayCommand(CanExecute = nameof(CanUpdateWeather))]
-		private void UpdateWeather()
+		protected override void UpdateViews()
 		{
-			_todayModel.UpdateWeather();
-
-			// 更新中はコマンドを無効化するため、CanExecuteChangedを通知
-			UpdateWeatherCommand.NotifyCanExecuteChanged();
-		}
-
-		private void UpdateViews()
-		{
-			TodayDateAndWeek = _todayModel.GetTodayDateAndWeek();
+			// ビューの更新
 			TargetCity = _todayModel.GetCityName();
-			TodayWeather = _todayModel.GetTodayTelop();
-			TodayTemperature = _todayModel.GetTodayTemperature();
-			TodayRainProbability = _todayModel.GetTodayRainProbability();
-			TodayWeatherIcon = _todayModel.GetTodayWeatherIcon();
+			TodayWeatherInfo.DateAndWeek = _todayModel.GetTodayDateAndWeek();
+			TodayWeatherInfo.Weather = _todayModel.GetTodayTelop();
+			TodayWeatherInfo.Temperature = _todayModel.GetTodayTemperature();
+			TodayWeatherInfo.RainProbability = _todayModel.GetTodayRainProbability();
+			TodayWeatherInfo.WeatherIcon = _todayModel.GetTodayWeatherIcon();
 
 			// 天気情報の更新が完了したので、コマンドの実行可否を再評価
 			UpdateWeatherCommand.NotifyCanExecuteChanged();
 		}
-
-		/// <summary>
-		/// 設定が変更されたときの処理
-		/// </summary>
-		private void OnSettingsChanged()
-		{
-			var cityCode = _settingsModel.GetCityCode();
-			_todayModel.SetCityCode(cityCode);
-			UpdateWeather();
-		}
-
-		private bool CanUpdateWeather() => _todayModel.CanUpdate;
 	}
 }
